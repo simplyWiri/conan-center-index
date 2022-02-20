@@ -21,12 +21,14 @@ class BenchmarkConan(ConanFile):
         "fPIC": [True, False],
         "enable_lto": [True, False],
         "enable_exceptions": [True, False],
+        "enable_libpfm": [True, False],
     }
     default_options = {
         "shared": False,
         "fPIC": True,
         "enable_lto": False,
         "enable_exceptions": True,
+        "enable_libpfm": False,
     }
 
     _cmake = None
@@ -63,6 +65,7 @@ class BenchmarkConan(ConanFile):
         self._cmake.definitions["BENCHMARK_ENABLE_GTEST_TESTS"] = "OFF"
         self._cmake.definitions["BENCHMARK_ENABLE_LTO"] = "ON" if self.options.enable_lto else "OFF"
         self._cmake.definitions["BENCHMARK_ENABLE_EXCEPTIONS"] = "ON" if self.options.enable_exceptions else "OFF"
+        self._cmake.definitions["BENCHMARK_ENABLE_LIBPFM"] = "ON" if self.options.enable_libpfm else "OFF"
 
         if self.settings.os != "Windows":
             if tools.cross_building(self.settings):
